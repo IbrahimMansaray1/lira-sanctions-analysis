@@ -2,7 +2,7 @@
 
 **An event study of 13 sanctions, tariff and policy shocks to the Turkish lira, built to understand the 2026 collapse of the Iranian rial.**
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/YOUR-USERNAME/lira-sanctions-analysis/blob/main/lira_sanctions_analysis.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/IbrahimMansaray1/lira-sanctions-analysis/blob/main/lira_sanctions_analysis.ipynb)
 
 ## The question
 
@@ -22,11 +22,11 @@ Two questions:
 | **The grind beat the crashes.** | USD/TRY rose **22-fold** from Jan 2014 to Sep 2026 (the lira lost **95.5%** of its dollar value). Ordinary days multiplied USD/TRY by about 20; the 13 headline weeks together added only 9%. |
 | **Headlines overstate the damage; normal models understate the risk.** | The lira had **22 days** beyond four standard deviations, where a normal distribution expects **0.2**. Its biggest one-day move was USD/TRY *falling* 27% (a 36% gain for the lira) the day after the state promised to protect lira savings from depreciation (21 Dec 2021): a 29-standard-deviation event. |
 
-![Event study](figures/04_event_study.png)
+![Event study](04_event_study.png)
 
 Each row is one event. The open circle is the abnormal move in USD/TRY over the first two trading days; the filled circle is the abnormal move 60 trading days later. US sanctions (orange) mostly ended near or below zero; domestic policy shocks (blue) mostly stayed above it.
 
-![Crash versus grind](figures/05_crash_vs_grind.png)
+![Crash versus grind](05_crash_vs_grind.png)
 
 Because log returns add up, the total move can be split exactly into event weeks and ordinary days. Strip out every headline week and USD/TRY still rises from 2.19 to 44.8, against an actual 48.6.
 
@@ -34,16 +34,16 @@ Because log returns add up, the total move can be split exactly into event weeks
 
 | | |
 |---|---|
-| ![Big picture](figures/01_big_picture.png) | ![Fat tails](figures/06_fat_tails.png) |
-| ![2018 case study](figures/02_case_2018.png) | ![2021 case study](figures/03_case_2021.png) |
+| ![Big picture](01_big_picture.png) | ![Fat tails](06_fat_tails.png) |
+| ![2018 case study](02_case_2018.png) | ![2021 case study](03_case_2021.png) |
 
-An interactive version of the main chart (hover over each event) is in [`figures/usdtry_interactive.html`](figures/usdtry_interactive.html); download it and open it in a browser.
+An interactive version of the main chart (hover over each event) is in [`usdtry_interactive.html`](usdtry_interactive.html); download it and open it in a browser.
 
 ## Method
 
 * **Data.** Daily USD/TRY from the [ECB's euro reference rates](https://www.ecb.europa.eu/stats/eurofxref) (EUR/TRY divided by EUR/USD), 2 January 2014 to 14 September 2026, 3,250 trading days. Cross-checked against Yahoo Finance `TRY=X` in the notebook. The ECB was chosen over Yahoo because it is official, stable and reproducible; Yahoo's FX volume is always zero and its daily cut-off is undocumented.
 * **Returns and volatility.** Log returns; 21-day realised volatility annualised with √252; EWMA volatility (λ = 0.94) to measure how quickly panic fades.
-* **Event catalogue.** 13 events chosen from the news record before looking at the data, in three groups: US sanctions & tariffs (4), domestic policy shocks (6), and lira-supportive policy (3) as a control. Dates and sources are in the notebook and in `results/event_study.csv`.
+* **Event catalogue.** 13 events chosen from the news record before looking at the data, in three groups: US sanctions & tariffs (4), domestic policy shocks (6), and lira-supportive policy (3) as a control. Dates and sources are in the notebook and in `event_study.csv`.
 * **Event study.** Normal behaviour (mean and volatility of daily returns) estimated over trading days -250 to -21; abnormal returns cumulated over days 0 to 1, 0 to 5 and 0 to 60; z-scores relative to normal volatility; Welch t-test and Mann-Whitney test between groups.
 * **Decomposition.** Total log change split into event weeks and ordinary days, shown as multipliers.
 * **Fat tails.** Observed versus normal-distribution frequency of 3 to 10 standard deviation days.
@@ -58,16 +58,17 @@ pip install -r requirements.txt
 jupyter notebook lira_sanctions_analysis.ipynb
 ```
 
-The notebook uses the data snapshot in `data/` if it is present and downloads it from the ECB otherwise. The end date is fixed at 14 September 2026 so every number above can be reproduced exactly.
+The notebook downloads the ECB data itself. A snapshot, `ecb_usdtry.csv`, is included: to run offline, put it in a folder called `data` next to the notebook. The end date is fixed at 14 September 2026 so every number above can be reproduced exactly.
 
 ## Repository
 
 ```
 lira_sanctions_analysis.ipynb   the full analysis, with commentary
-data/ecb_usdtry.csv             ECB reference rates snapshot (EUR/USD, EUR/TRY, USD/TRY)
-figures/                        charts used above, plus the interactive HTML chart
-results/event_study.csv         per-event results
-results/decomposition.csv       crash-versus-grind decomposition
+ecb_usdtry.csv                  ECB reference rates snapshot (EUR/USD, EUR/TRY, USD/TRY)
+01_ to 06_ *.png                charts used above
+usdtry_interactive.html         interactive version of the main chart
+event_study.csv                 per-event results
+decomposition.csv               crash-versus-grind decomposition
 requirements.txt
 ```
 
